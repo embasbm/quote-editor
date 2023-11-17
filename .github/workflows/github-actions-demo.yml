@@ -33,30 +33,32 @@ permissions:
 
 jobs:
   test:
-    steps:
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
+    Explore-GitHub-Actions:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Set up Ruby
+          uses: ruby/setup-ruby@v1
+          with:
+            bundler-cache: true
 
-      # Begin install-action snippet
-      #
-      - name: Enable appmap gem update
-        run: bundle config unset deployment
-      - name: Install AppMap tools
-        id: install-appmap
-        uses: getappmap/install-action@v1
-        with:
-          project-type: bundler
-      - name: Commit changes
-        uses: EndBug/add-and-commit@v9
-      #
-      # End install-action snippet
+        # Begin install-action snippet
+        #
+        - name: Enable appmap gem update
+          run: bundle config unset deployment
+        - name: Install AppMap tools
+          id: install-appmap
+          uses: getappmap/install-action@v1
+          with:
+            project-type: bundler
+        - name: Commit changes
+          uses: EndBug/add-and-commit@v9
+        #
+        # End install-action snippet
 
-      - name: Run tests
-        run: bundle exec rails test
+        - name: Run tests
+          run: bundle exec rails test
 
-      - name: Archive AppMaps
-        uses: getappmap/archive-action@v1
-        with:
-          revision: ${{ github.event.pull_request.base.sha }}
+        - name: Archive AppMaps
+          uses: getappmap/archive-action@v1
+          with:
+            revision: ${{ github.event.pull_request.base.sha }}
