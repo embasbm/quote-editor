@@ -34,11 +34,6 @@ permissions:
 jobs:
   test:
     steps:
-      - uses: actions/checkout@v4
-        with:
-          # Checkout pull request head so that a commit can be made
-          ref: ${{ github.event.pull_request.head.ref }}
-
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
