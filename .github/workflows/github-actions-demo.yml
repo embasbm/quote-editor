@@ -43,6 +43,10 @@ jobs:
           ruby-version: 3.0.0
 
       - name: Run tests
+        env:
+          RAILS_ENV: "test"
+          DATABASE_URL: "postgres://postgres@localhost:5432/quote_editor_test"
+          RUBYOPT: "-W:no-deprecated -W:no-experimental" # Suppress Rails 6 deprecation warnings for ruby 2.7
         run: bundle exec rails test
 
       - name: Archive AppMaps
