@@ -43,7 +43,7 @@ jobs:
           ruby-version: 3.0.0
 
       - name: Run tests
-        run: bin/rails test:all
+        run: bundle exec rails test
 
       - name: Archive AppMaps
         uses: getappmap/archive-action@v1
