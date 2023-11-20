@@ -31,7 +31,6 @@ permissions:
   # Add a comment to the pull request.
   pull-requests: write
 
-build:
 services:
   postgres:
     image: postgres:12.2
