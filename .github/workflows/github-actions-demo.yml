@@ -31,6 +31,21 @@ permissions:
   # Add a comment to the pull request.
   pull-requests: write
 
+build:
+services:
+  postgres:
+    image: postgres:12.2
+    env:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    ports:
+      - 5432:5432
+    options: &gt;-
+      --health-cmd pg_isready
+      --health-interval 10s
+      --health-timeout 5s
+      --health-retries 5
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -44,9 +59,12 @@ jobs:
 
       - name: Run tests
         env:
-          RAILS_ENV: "test"
-          DATABASE_URL: "postgres://postgres@localhost:5432/quote_editor_test"
-          RUBYOPT: "-W:no-deprecated -W:no-experimental" # Suppress Rails 6 deprecation warnings for ruby 2.7
+          RAILS_ENV: test
+          POSTGRES_HOST: localhost
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }}
+          RUBYOPT: "-W:no-deprecated -W:no-experimental"
         run: bundle exec rails test
 
       - name: Archive AppMaps
